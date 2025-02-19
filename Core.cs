@@ -120,13 +120,13 @@ namespace XPBar
         #endregion
 
         private uint CurDiff;
-        private int CurLvl;
+        private int CurLvl = 0;
         private uint CurMax;
         private uint CurMin;
-
-        public override bool Initialise()
+        private void UpdateLevel()
         {
-            var pExp = GameController.Player?.GetComponent<Player>().XP;
+            var pExp = GameController.Player?.GetComponent<Player>()?.XP;
+            if (pExp == null) return;
 
             for (var i = 0; i < ExpTable.Length - 1; i++)
             {
@@ -142,12 +142,16 @@ namespace XPBar
                 }
             }
             CurDiff = CurMax - CurMin;
-            return true;
         }
 
         public override void Render()
         {
             //var expElement = GameController.Game.IngameState.UIRoot.GetChildFromIndices(1, 57, 12);
+            if (CurLvl == 0) {
+                UpdateLevel();
+                return;
+            }
+
             var pExp = GameController.Player.GetComponent<Player>().XP;
 
             pExp -= CurMin;
