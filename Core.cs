@@ -144,9 +144,14 @@ namespace XPBar
             CurDiff = CurMax - CurMin;
         }
 
+        public override void AreaChange(AreaInstance area)
+        {
+            CurLvl = 0;
+            base.AreaChange(area);
+        }
+
         public override void Render()
         {
-            //var expElement = GameController.Game.IngameState.UIRoot.GetChildFromIndices(1, 57, 12);
             if (CurLvl == 0) {
                 UpdateLevel();
                 return;
