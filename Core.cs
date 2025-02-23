@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using Color = System.Drawing.Color;
 using Vector2 = System.Numerics.Vector2;
 using ExileCore2;
@@ -161,14 +160,16 @@ namespace XPBar
 
             pExp -= CurMin;
             var proc = (float) pExp / CurDiff;
-            proc *= 100;
+            if ((proc *= 100) > 100) {
+                UpdateLevel();
+                return;
+            }
             var procStr = CurLvl + ": " + Math.Round(proc, 3) + "%";
             var size = Graphics.MeasureText(procStr, 20);
 
             var scrRect = GameController.Window.GetWindowRectangle();
 
             var center = new Vector2(scrRect.X + scrRect.Width / 2, scrRect.Height - 10);
-            // center.Y -= 10;
             var textRect = center;
             textRect.Y -= 10;
 
